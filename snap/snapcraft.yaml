@@ -1,0 +1,49 @@
+# https://documentation.ubuntu.com/snapcraft/stable/reference/project-file/snapcraft-yaml/#reference-snapcraft-yaml
+name: brew-python-resources
+title: Update Homebrew Formula Python Resources
+version: "0.0.1"
+license: MIT
+summary: Generate and Update Homebrew Formula Python Resources
+description: |
+  Generate and Update Homebrew Formula (Brew) Python Resources.
+
+  If you run into any issues or have any questions, support is available.
+
+base: core24
+grade: stable
+confinement: strict
+
+source-code: [https://github.com/cssnr/brew-python-resources]
+contact: [https://cssnr.github.io/brew-python-resources/support]
+website: [https://cssnr.github.io/brew-python-resources]
+issues: [https://github.com/cssnr/brew-python-resources/issues]
+donation: [https://ko-fi.com/cssnr]
+
+icon: docs/assets/images/logo.svg
+
+platforms:
+  amd64:
+    build-on: [amd64]
+    build-for: [amd64]
+  arm64:
+    build-on: [arm64]
+    build-for: [arm64]
+
+parts:
+  brew-python-resources:
+    plugin: python
+    source: .
+
+apps:
+  brew-python-resources:
+    command: bin/brew-python-resources
+    plugs:
+      - home
+      - network
+      - dot-cache
+
+plugs:
+  dot-cache:
+    interface: personal-files
+    write:
+      - $HOME/.cache/brew-python-resources.sqlite
