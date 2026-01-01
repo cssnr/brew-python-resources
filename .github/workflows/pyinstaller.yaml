@@ -77,13 +77,15 @@ jobs:
           version: ${{ inputs.version }}
           initpy-files: ${{ inputs.version-file }}
 
-      - name: "Debug Version"
-        continue-on-error: true
-        shell: bash
+      - name: "Update UV Version"
+        if: ${{ inputs.version }}
         run: |
+          uv version ${{ inputs.version }}
+          echo "::group::${{ inputs.version-file }}"
           cat ${{ inputs.version-file }}
+          echo "::endgroup::"
 
-      - name: "Version"
+      - name: "Parse Version"
         # Note: packaging is not available on macos-latest by default
         if: ${{ matrix.os == 'windows-latest' && inputs.windows-file }}
         id: version
@@ -108,7 +110,7 @@ jobs:
           uvx toml-run win-version -- --version "${{ env.version }}"
 
       - name: "Debug Windows Version"
-        if: ${{ matrix.os == 'windows-latest' }}
+        if: ${{ matrix.os == 'windows-latest' && inputs.windows-file }}
         continue-on-error: true
         shell: bash
         run: |
