@@ -74,7 +74,7 @@ jobs:
           results="$(ls -lAh "${path}"/* | awk '{print $9" - "$5}')"
           md="Artifacts:\n\`\`\`text\n${results}\n\`\`\`"
           echo -e "${md}" >> "$GITHUB_STEP_SUMMARY"
-          echo "Verification String: '${name/-/_}-${tag}-'"
+          echo "Verification String: '${name//-/_}-${tag}-'"
           find "${path}" -type f | grep -- "${name/-/_}-${tag}-" > /dev/null
 
       - name: "Publish to PyPI"
