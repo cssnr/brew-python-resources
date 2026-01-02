@@ -1,4 +1,4 @@
-name: "Snapcraft"
+name: "Homebrew"
 
 on:
   workflow_call:
@@ -15,14 +15,10 @@ on:
     inputs: *inputs
 
 jobs:
-  snapcraft:
-    name: "Snapcraft - ${{ matrix.os }}"
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm]
+  homebrew:
+    name: "Homebrew"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
 
     permissions:
       contents: read
