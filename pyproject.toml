@@ -74,7 +74,7 @@ extend-exclude = '(\.github)'
 # Coverage
 # https://coverage.readthedocs.io/en/latest/
 [tool.coverage.run]
-omit = ["_version.py", "utils.py"]
+omit = ["_version.py", "app.py", "utils.py"]
 source = ["src"]
 
 # Hatchling
