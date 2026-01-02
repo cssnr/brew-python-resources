@@ -113,7 +113,7 @@ jobs:
     needs: [publish]
     secrets: inherit
     with:
-      name: ${{ env.name }}
+      name: "brew-python-resources"
       version: ${{ github.ref_name }}
     permissions:
       contents: write
