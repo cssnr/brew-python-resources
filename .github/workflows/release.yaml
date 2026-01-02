@@ -140,7 +140,7 @@ jobs:
         env:
           COMMITTER_TOKEN: ${{ secrets.HOMEBREW_PAT }}
         with:
-          formula-name: "${{ env.name }}.rb"
+          formula-name: "${{ env.name }}"
           tag-name: ${{ github.ref_name }}
           download-url: ${{ fromJSON(steps.url.outputs.result).url }}
           download-sha256: ${{ fromJSON(steps.url.outputs.result).digests.sha256 }}
