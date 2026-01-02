@@ -77,13 +77,11 @@ jobs:
           version: ${{ inputs.version }}
           initpy-files: ${{ inputs.version-file }}
 
-      - name: "Update UV Version"
-        if: ${{ inputs.version }}
+      - name: "Debug Version"
+        continue-on-error: true
+        shell: bash
         run: |
-          uv version ${{ inputs.version }}
-          echo "::group::${{ inputs.version-file }}"
           cat ${{ inputs.version-file }}
-          echo "::endgroup::"
 
       - name: "Parse Version"
         # Note: packaging is not available on macos-latest by default

@@ -65,17 +65,14 @@ jobs:
           version: ${{ inputs.version }}
           initpy-files: ${{ inputs.version-file }}
 
-      - name: "Update UV Version"
-        if: ${{ inputs.version }}
+      - name: "Debug Version"
+        continue-on-error: true
         run: |
-          uv version ${{ inputs.version }}
-          echo "::group::${{ inputs.version-file }}"
           cat ${{ inputs.version-file }}
-          echo "::endgroup::"
 
       - name: "Build"
         run: |
-          uv build
+          uvx toml-run build
 
       - name: "List Artifacts"
         continue-on-error: true

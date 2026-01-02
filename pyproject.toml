@@ -1,6 +1,5 @@
 [project]
 name = "brew-python-resources"
-version = "0.0.1"
 description = "Generate and Update Homebrew Formula (Brew) Python Resources."
 readme = "README.md"
 requires-python = ">=3.8"
@@ -19,11 +18,13 @@ dependencies = [
   "requests>=2.32.4",
   "requests-cache>=1.2.1",
 ]
+dynamic = ["version"]
 
 [project.urls]
 Changelog = "https://github.com/cssnr/brew-python-resources/releases"
 Discord = "https://discord.gg/wXy6m2X8wY"
 Documentation = "https://cssnr.github.io/brew-python-resources/"
+Download = "https://github.com/cssnr/brew-python-resources/releases/latest"
 Funding = "https://ko-fi.com/cssnr"
 GitHub = "https://github.com/cssnr/brew-python-resources"
 Homepage = "https://cssnr.com/"
@@ -38,6 +39,7 @@ dev = [
   "bandit>=1.7.10",
   "black>=24.8.0",
   "coverage>=7.6.1",
+  "hatch>=1.14.2",
   "isort>=5.13.2",
   "mypy>=1.14.1",
   "pyinstaller>=6.17.0",
@@ -51,10 +53,10 @@ dev = [
   "yamllint>=1.35.1",
 ]
 
-# https://docs.astral.sh/uv/reference/settings/#build-backend
+# https://hatch.pypa.io/latest/config/build/#build-system
 [build-system]
-requires = ["uv_build>=0.9.9,<0.10.0"]
-build-backend = "uv_build"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 # Bandit
 # https://bandit.readthedocs.io/en/latest/config.html
@@ -74,6 +76,17 @@ extend-exclude = '(\.github)'
 [tool.coverage.run]
 omit = ["_version.py", "utils.py"]
 source = ["src"]
+
+# Hatchling
+# https://hatch.pypa.io/latest/config/build/#build-system
+[tool.hatch.version]
+path = "src/brewresources/_version.py"
+
+[tool.hatch.build.targets.sdist]
+include = ["src"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/brewresources"]
 
 # Isort
 # https://pycqa.github.io/isort/docs/configuration/options.html
@@ -105,7 +118,8 @@ select = ["E4", "E7", "E9", "F", "B", "Q"]
 win-version = "uv run pyivf-make_version --source-format yaml --metadata-source .github/files/win-version.yaml --outfile win-version.txt"
 pyinstaller = "uv run pyinstaller -F -n bpr -i docs/favicon.ico src/app.py"
 test = ["uv run coverage run -m pytest", "uv run coverage report -m"]
-build = "uv build"
+clean = "rm -rf dist"
+build = "uv run hatch build"
 predocs = "rm -rf .cache site"
 docs = "zensical serve --open --dev-addr 0.0.0.0:8000"
 docs-build = "zensical build --clean"
@@ -114,7 +128,7 @@ uv run black .
 uv run isort -c .
 uv run ruff format
 uv run tombi format .
-which prettier && prettier --write .
+which prettier && prettier --write . || echo missing prettier
 """
 lint = """
 run bandit
@@ -122,7 +136,7 @@ run mypy
 run ruff
 run validate
 run yamllint
-which prettier && prettier --check .
+which prettierr && prettier --check . || echo missing prettier
 uv run black --check .
 uv run isort -c .
 uv run tombi lint .
@@ -134,7 +148,3 @@ mypy = "uv run mypy ."
 ruff = "uv run ruff check ."
 validate = "uv run validate-pyproject pyproject.toml"
 yamllint = "uv run yamllint -c .github/yamllint.yaml ."
-
-[tool.uv.build-backend]
-module-name = "brewresources"
-source-include = ["LICENSE"]
