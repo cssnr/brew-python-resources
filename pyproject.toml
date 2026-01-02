@@ -136,7 +136,7 @@ run mypy
 run ruff
 run validate
 run yamllint
-which prettierr && prettier --check . || echo missing prettier
+which prettier && prettier --check . || echo missing prettier
 uv run black --check .
 uv run isort -c .
 uv run tombi lint .
