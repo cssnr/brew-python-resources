@@ -112,6 +112,8 @@ def run() -> None:
 
     vprint(f"Package Name: {package_name}")
     vprint(f"Python {sys.version}")
+    vprint(f"Prefix {sys.prefix}", lvl=2)
+    vprint(f"Python {sys.path}", lvl=3)
     command = ["pip", "install", args.package, "--quiet", "--dry-run", "--ignore-installed", "--report", "-"]
     vprint(" ".join(command))
 
