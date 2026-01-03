@@ -56,13 +56,10 @@ jobs:
           version: ${{ inputs.version }}
           initpy-files: ${{ inputs.version-file }}
 
-      - name: "Update UV Version"
-        if: ${{ inputs.version }}
+      - name: "Debug Version"
+        continue-on-error: true
         run: |
-          uv version ${{ inputs.version }}
-          echo "::group::${{ inputs.version-file }}"
           cat ${{ inputs.version-file }}
-          echo "::endgroup::"
 
       # https://documentation.ubuntu.com/snapcraft/stable/how-to/crafting/configure-package-information/#configure-package-information
       - name: "Update Snap Version"
