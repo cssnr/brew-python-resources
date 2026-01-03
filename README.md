@@ -43,9 +43,11 @@ If you run into any issues or have any questions, [support](#support) is availab
 
 - Works on published packages or package files
 - Include and Exclude regex or single resource
+- Can generate a `url` and `sha256` stanza
 - Does not require Homebrew or formula files
 - Does not create a venv or install packages
-- Uses caching for repeated runs
+- Does not require packages to be installed
+- Uses requests cache for repeated runs
 
 [![View Full Reference](https://img.shields.io/badge/view_full_reference-blue?style=for-the-badge&logo=googledocs&logoColor=white)](https://cssnr.github.io/brew-python-resources/reference/)
 
@@ -118,6 +120,17 @@ Process a single resource.
 
 ```shell
 bpr sharex-cli -s
+```
+
+Generate the `url` and `sha256` stanza with `--url`.
+
+```shell
+bpr brew-python-resources -u
+```
+
+```text
+url "https://files.pythonhosted.org/packages/02/b4/7a80261f399e7a0b1611acb4056d485c3734edc7ff625e61470972e3127c/brew_python_resources-0.0.2.tar.gz"
+sha256 "44719069bc244bf33806d15dcfa3a9acd43a3abe2f810c1b94e953495cdcf729"
 ```
 
 Exclude or include packages with regex. Comma seperated list of patterns.

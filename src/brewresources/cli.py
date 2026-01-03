@@ -74,7 +74,7 @@ def print_rule(title: str, lvl: int = 0, rule: str = "-", pre: int = 3, **kwargs
 
 def env(name: str) -> Any:
     result = os.environ.get(f"BPR_{name}".upper())
-    if name == "single":
+    if name in ["single", "url"]:
         return str_to_bool(result)
     elif name == "verbose":
         return int(result) if result and result.isdigit() else 0
@@ -88,6 +88,7 @@ def run() -> None:
     parser.add_argument("-e", "--exclude", default=env("exclude"), help="Exclude regex patterns [CSV]")
     parser.add_argument("-i", "--include", default=env("include"), help="Include regex patterns [CSV]")
     parser.add_argument("-s", "--single", action="store_true", default=env("single"), help="Process single package")
+    parser.add_argument("-u", "--url", action="store_true", default=env("url"), help="Generate url [implies --single]")
     parser.add_argument("-v", "--verbose", action="count", default=env("verbose"), help="Verbose output [debug: -vvv]")
     parser.add_argument("-C", "--clear-cache", action=CacheAction, nargs=0, help="Clear request cache")
     parser.add_argument("-V", "--version", action="version", version=__version__, help="Show installed version")
@@ -121,7 +122,7 @@ def run() -> None:
     packages: List[Package] = sorted([Package(d["metadata"]["name"], d["metadata"]["version"]) for d in install])
     vprint(f"initial sorted ({len(packages)}): {packages=}", lvl=2)
 
-    packages = [p for p in packages if cmp_package(p.name, package_name, args.single)]
+    packages = [p for p in packages if cmp_package(p.name, package_name, args.single or args.url)]
     vprint(f"default filter ({len(packages)}): {packages=}", lvl=2)
 
     packages = filter_list(packages, args.include)
@@ -145,14 +146,17 @@ def run() -> None:
         raise ValueError(f"No dependencies found for: {args.package}")  # pragma: no cover
 
     print_rule("COPY RESOURCES BELOW HERE", 1, file=sys.stderr, end="\n\n")
-    for resource in resources:
-        print(
-            f'  resource "{resource.name}" do',
-            f'    url "{resource.url}"',
-            f'    sha256 "{resource.sha256}"',
-            "  end\n",
-            sep="\n",
-        )
+    if args.url:
+        print(f'  url "{resources[0].url}"', f'  sha256 "{resources[0].sha256}"', sep="\n", end="\n\n")
+    else:
+        for resource in resources:
+            print(
+                f'  resource "{resource.name}" do',
+                f'    url "{resource.url}"',
+                f'    sha256 "{resource.sha256}"',
+                "  end\n",
+                sep="\n",
+            )
     print_rule("COPY RESOURCES ABOVE HERE", 1, file=sys.stderr)
 
 

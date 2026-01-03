@@ -63,9 +63,11 @@ If you run into any issues or have any questions, [support](support.md) is avail
 
 - Works on published packages or package files
 - Include and Exclude regex or single resource
+- Can generate a `url` and `sha256` stanza
 - Does not require Homebrew or formula files
 - Does not create a venv or install packages
-- Uses caching for repeated runs
+- Does not require packages to be installed
+- Uses requests cache for repeated runs
 
 For more details see the [full reference](reference.md).
 
