@@ -59,7 +59,7 @@ jobs:
           echo "matrix.extra-args: ${{ matrix.extra-args }}"
 
       - name: "Install UV"
-        uses: astral-sh/setup-uv@681c641aba71e4a1c380be3ab5e12ad51f415867 # v7.1.6
+        uses: astral-sh/setup-uv@61cb8a9741eeb8a550a1b8544337180c0fc8476b # v7.2.0
 
       - name: "Install Python 3.13"
         shell: bash
@@ -83,7 +83,7 @@ jobs:
         run: |
           cat ${{ inputs.version-file }}
 
-      - name: "Parse Version"
+      - name: "Version"
         # Note: packaging is not available on macos-latest by default
         if: ${{ matrix.os == 'windows-latest' && inputs.windows-file }}
         id: version
